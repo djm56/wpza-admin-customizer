@@ -120,7 +120,16 @@ class Wpza_Admin_Customizer {
 		 * The class responsible for defining all actions that occur in the public-facing
 		 * side of the site.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-wpza-admin-customizer-public.php';
+        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'public/class-wpza-admin-customizer-public.php';
+
+        /**
+         * Exopite Simple Options Framework
+         *
+         * @link https://github.com/JoeSz/Exopite-Simple-Options-Framework
+         * @author Joe Szalai
+         */
+        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/exopite-simple-options/exopite-simple-options-framework-class.php';
+
 
 		$this->loader = new Wpza_Admin_Customizer_Loader();
 
@@ -155,7 +164,10 @@ class Wpza_Admin_Customizer {
 		$plugin_admin = new Wpza_Admin_Customizer_Admin( $this->get_plugin_name(), $this->get_version() );
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+        $this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+
+        // Save/Update our plugin options
+		$this->loader->add_action( 'init', $plugin_admin, 'create_menu', 999 );
 
 	}
 
